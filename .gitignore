@@ -1,0 +1,17 @@
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Go build outputs
+/bin/
+/dist/
+*.exe
+*.test
+*.out
+
+# Editor files
+.vscode/
+.idea/
+.DS_Store

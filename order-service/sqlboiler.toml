@@ -1,0 +1,6 @@
+
+output = "models"
+pkgname = "models"
+
+[psql]
+  whitelist = ["orders"]
