@@ -16,11 +16,11 @@ import (
 
 func main() {
 
-	err := godotenv.Load("user-service/.env")
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	if err := godotenv.Load(".env"); err != nil {
+		if err := godotenv.Load("user-service/.env"); err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
-
 	db, err := config.ConnectDB()
 	if err != nil {
 		log.Fatal(err)

@@ -4,12 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+
 	_ "github.com/lib/pq"
 )
 
 func ConnectDB() (*sql.DB, error) {
 	password := os.Getenv("DB_PASSWORD")
-dsn := fmt.Sprintf("host=localhost port=5432 user=postgres password=%s", password)
+	dsn := fmt.Sprintf("host=localhost port=5432 user=postgres dbname=user_db password=%s", password)
 
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {

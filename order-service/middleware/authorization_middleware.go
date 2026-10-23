@@ -1,12 +1,6 @@
 package middleware
 
-import (
-	"net/http"
-)
-
-type roleContextKey string
-
-const UserRoleKey roleContextKey = "userRole"
+import "net/http"
 
 func RequireAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

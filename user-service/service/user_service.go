@@ -1,11 +1,12 @@
 package service
 
 import (
-	"example.com/go-commerce-platform/user-service/models"
-	"example.com/go-commerce-platform/user-service/repository"
 	"context"
 	"errors"
 	"fmt"
+
+	"example.com/go-commerce-platform/user-service/models"
+	"example.com/go-commerce-platform/user-service/repository"
 )
 
 type UserService struct {

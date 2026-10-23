@@ -29,6 +29,7 @@ type User struct {
 	Email        string    `boil:"email" json:"email" toml:"email" yaml:"email"`
 	CreatedAt    null.Time `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
 	PasswordHash string    `boil:"password_hash" json:"password_hash" toml:"password_hash" yaml:"password_hash"`
+	Role         string    `boil:"role" json:"role" toml:"role" yaml:"role"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -40,12 +41,14 @@ var UserColumns = struct {
 	Email        string
 	CreatedAt    string
 	PasswordHash string
+	Role         string
 }{
 	ID:           "id",
 	Name:         "name",
 	Email:        "email",
 	CreatedAt:    "created_at",
 	PasswordHash: "password_hash",
+	Role:         "role",
 }
 
 var UserTableColumns = struct {
@@ -54,12 +57,14 @@ var UserTableColumns = struct {
 	Email        string
 	CreatedAt    string
 	PasswordHash string
+	Role         string
 }{
 	ID:           "users.id",
 	Name:         "users.name",
 	Email:        "users.email",
 	CreatedAt:    "users.created_at",
 	PasswordHash: "users.password_hash",
+	Role:         "users.role",
 }
 
 // Generated where
@@ -70,12 +75,14 @@ var UserWhere = struct {
 	Email        whereHelperstring
 	CreatedAt    whereHelpernull_Time
 	PasswordHash whereHelperstring
+	Role         whereHelperstring
 }{
 	ID:           whereHelperint{field: "\"users\".\"id\""},
 	Name:         whereHelperstring{field: "\"users\".\"name\""},
 	Email:        whereHelperstring{field: "\"users\".\"email\""},
 	CreatedAt:    whereHelpernull_Time{field: "\"users\".\"created_at\""},
 	PasswordHash: whereHelperstring{field: "\"users\".\"password_hash\""},
+	Role:         whereHelperstring{field: "\"users\".\"role\""},
 }
 
 // UserRels is where relationship names are stored.
@@ -115,9 +122,9 @@ func (r *userR) GetOrders() OrderSlice {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "name", "email", "created_at", "password_hash"}
+	userAllColumns            = []string{"id", "name", "email", "created_at", "password_hash", "role"}
 	userColumnsWithoutDefault = []string{"name", "email"}
-	userColumnsWithDefault    = []string{"id", "created_at", "password_hash"}
+	userColumnsWithDefault    = []string{"id", "created_at", "password_hash", "role"}
 	userPrimaryKeyColumns     = []string{"id"}
 	userGeneratedColumns      = []string{}
 )

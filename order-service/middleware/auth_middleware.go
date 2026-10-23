@@ -9,26 +9,31 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type secretkey string
+type contextKey string
 
-const UserIDKey secretkey = "userID"
+const (
+	UserIDKey   contextKey = "userID"
+	UserRoleKey contextKey = "userRole"
+)
 
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
+
 		if !strings.HasPrefix(authHeader, "Bearer ") {
 			http.Error(w, "Missing or invalid authorization header", http.StatusUnauthorized)
 			return
 		}
-		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
+		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 		if tokenString == "" {
 			http.Error(w, "Missing token", http.StatusUnauthorized)
 			return
 		}
+
 		secret := os.Getenv("JWT_SECRET")
 		if secret == "" {
-			http.Error(w, "Authentication service configuration error", http.StatusInternalServerError)
+			http.Error(w, "Authentication configuration error", http.StatusInternalServerError)
 			return
 		}
 
@@ -50,13 +55,21 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		userID, ok := claims["UserID"].(float64)
+		userID, ok := claims["user_id"].(float64)
 		if !ok || userID <= 0 {
 			http.Error(w, "Invalid user ID in token", http.StatusUnauthorized)
 			return
 		}
 
+		role, ok := claims["role"].(string)
+		if !ok || role == "" {
+			http.Error(w, "Invalid role in token", http.StatusUnauthorized)
+			return
+		}
+
 		ctx := context.WithValue(r.Context(), UserIDKey, int64(userID))
+		ctx = context.WithValue(ctx, UserRoleKey, role)
+
 		r = r.WithContext(ctx)
 
 		next.ServeHTTP(w, r)

@@ -1,7 +1,6 @@
 [psql]
-dbname = "daily_backend_db"
+dbname = "user_db"
 host = "localhost"
 port = 5432
 user = "postgres"
-pass = "postgres123"
 sslmode = "disable"

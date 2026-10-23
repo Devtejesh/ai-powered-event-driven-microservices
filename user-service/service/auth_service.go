@@ -59,7 +59,7 @@ func (s *AuthService) LoginUser(ctx context.Context, email string, password stri
 	if err != nil {
 		return "", fmt.Errorf("invalid email or password")
 	}
-	token, err := GenerateToken(user.ID)
+	token, err := GenerateToken(user.ID, user.Role)
 	if err != nil {
 		return "", fmt.Errorf("failed to generate token: %w", err)
 	}
