@@ -3,4 +3,10 @@ output = "models"
 pkgname = "models"
 
 [psql]
+  dbname = "order_db"
+  host = "localhost"
+  port = 5432
+  user = "postgres"
+  pass= "postgres123"
+  sslmode = "disable"
   whitelist = ["orders"]

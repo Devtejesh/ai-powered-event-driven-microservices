@@ -21,9 +21,9 @@ import (
 
 func main() {
 	// Load environment variables.
-	err := godotenv.Load("../user-service/.env")
+	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatal("Error loading user-service .env file")
+		log.Fatal("Error loading order-service .env file")
 	}
 
 	// Connect to the database.

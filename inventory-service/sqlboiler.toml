@@ -1,0 +1,10 @@
+output = "models"
+pkgname = "models"
+
+[psql]
+  dbname = "inventory_db"
+  host = "localhost"
+  port = 5432
+  user = "postgres"
+  sslmode = "disable"
+  whitelist = ["products"]

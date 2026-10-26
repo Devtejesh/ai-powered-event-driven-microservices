@@ -12,11 +12,17 @@ type Producer struct {
 	writer *kafkago.Writer
 }
 
+type OrderItem struct {
+	ProductID int64 `json:"product_id"`
+	Quantity  int   `json:"quantity"`
+}
+
 type OrderCreatedEvent struct {
-	Event   string  `json:"event"`
-	OrderID int     `json:"order_id"`
-	UserID  int     `json:"user_id"`
-	Amount  float64 `json:"amount"`
+	Event   string      `json:"event"`
+	OrderID int         `json:"order_id"`
+	UserID  int         `json:"user_id"`
+	Amount  float64     `json:"amount"`
+	Items   []OrderItem `json:"items"`
 }
 
 func NewProducer() *Producer {

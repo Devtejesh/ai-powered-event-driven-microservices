@@ -13,6 +13,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/aarondl/null/v8"
 	"github.com/aarondl/sqlboiler/v4/boil"
 	"github.com/aarondl/sqlboiler/v4/queries"
 	"github.com/aarondl/sqlboiler/v4/queries/qm"
@@ -31,6 +32,7 @@ type Order struct {
 	UnitPrice   types.Decimal `boil:"unit_price" json:"unit_price" toml:"unit_price" yaml:"unit_price"`
 	Status      string        `boil:"status" json:"status" toml:"status" yaml:"status"`
 	CreatedAt   time.Time     `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
+	ProductID   null.Int64    `boil:"product_id" json:"product_id,omitempty" toml:"product_id" yaml:"product_id,omitempty"`
 
 	R *orderR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L orderL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -44,6 +46,7 @@ var OrderColumns = struct {
 	UnitPrice   string
 	Status      string
 	CreatedAt   string
+	ProductID   string
 }{
 	ID:          "id",
 	UserID:      "user_id",
@@ -52,6 +55,7 @@ var OrderColumns = struct {
 	UnitPrice:   "unit_price",
 	Status:      "status",
 	CreatedAt:   "created_at",
+	ProductID:   "product_id",
 }
 
 var OrderTableColumns = struct {
@@ -62,6 +66,7 @@ var OrderTableColumns = struct {
 	UnitPrice   string
 	Status      string
 	CreatedAt   string
+	ProductID   string
 }{
 	ID:          "orders.id",
 	UserID:      "orders.user_id",
@@ -70,6 +75,7 @@ var OrderTableColumns = struct {
 	UnitPrice:   "orders.unit_price",
 	Status:      "orders.status",
 	CreatedAt:   "orders.created_at",
+	ProductID:   "orders.product_id",
 }
 
 // Generated where
@@ -193,6 +199,44 @@ func (w whereHelpertime_Time) GTE(x time.Time) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
 
+type whereHelpernull_Int64 struct{ field string }
+
+func (w whereHelpernull_Int64) EQ(x null.Int64) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_Int64) NEQ(x null.Int64) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_Int64) LT(x null.Int64) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_Int64) LTE(x null.Int64) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_Int64) GT(x null.Int64) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_Int64) GTE(x null.Int64) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+func (w whereHelpernull_Int64) IN(slice []int64) qm.QueryMod {
+	values := make([]any, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
+}
+func (w whereHelpernull_Int64) NIN(slice []int64) qm.QueryMod {
+	values := make([]any, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
+}
+
+func (w whereHelpernull_Int64) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_Int64) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+
 var OrderWhere = struct {
 	ID          whereHelperint64
 	UserID      whereHelperint64
@@ -201,6 +245,7 @@ var OrderWhere = struct {
 	UnitPrice   whereHelpertypes_Decimal
 	Status      whereHelperstring
 	CreatedAt   whereHelpertime_Time
+	ProductID   whereHelpernull_Int64
 }{
 	ID:          whereHelperint64{field: "\"orders\".\"id\""},
 	UserID:      whereHelperint64{field: "\"orders\".\"user_id\""},
@@ -209,6 +254,7 @@ var OrderWhere = struct {
 	UnitPrice:   whereHelpertypes_Decimal{field: "\"orders\".\"unit_price\""},
 	Status:      whereHelperstring{field: "\"orders\".\"status\""},
 	CreatedAt:   whereHelpertime_Time{field: "\"orders\".\"created_at\""},
+	ProductID:   whereHelpernull_Int64{field: "\"orders\".\"product_id\""},
 }
 
 // OrderRels is where relationship names are stored.
@@ -228,9 +274,9 @@ func (*orderR) NewStruct() *orderR {
 type orderL struct{}
 
 var (
-	orderAllColumns            = []string{"id", "user_id", "product_name", "quantity", "unit_price", "status", "created_at"}
+	orderAllColumns            = []string{"id", "user_id", "product_name", "quantity", "unit_price", "status", "created_at", "product_id"}
 	orderColumnsWithoutDefault = []string{"user_id", "product_name", "quantity", "unit_price"}
-	orderColumnsWithDefault    = []string{"id", "status", "created_at"}
+	orderColumnsWithDefault    = []string{"id", "status", "created_at", "product_id"}
 	orderPrimaryKeyColumns     = []string{"id"}
 	orderGeneratedColumns      = []string{}
 )

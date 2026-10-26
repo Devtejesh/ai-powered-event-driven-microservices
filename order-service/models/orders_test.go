@@ -568,7 +568,7 @@ func testOrdersSelect(t *testing.T) {
 }
 
 var (
-	orderDBTypes = map[string]string{`ID`: `bigint`, `UserID`: `bigint`, `ProductName`: `character varying`, `Quantity`: `integer`, `UnitPrice`: `numeric`, `Status`: `character varying`, `CreatedAt`: `timestamp with time zone`}
+	orderDBTypes = map[string]string{`ID`: `bigint`, `UserID`: `bigint`, `ProductName`: `character varying`, `Quantity`: `integer`, `UnitPrice`: `numeric`, `Status`: `character varying`, `CreatedAt`: `timestamp with time zone`, `ProductID`: `bigint`}
 	_            = bytes.MinRead
 )
 

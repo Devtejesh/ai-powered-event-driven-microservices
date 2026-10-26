@@ -1,6 +1,11 @@
+
+output = "models"
+pkgname = "models"
+
 [psql]
-dbname = "user_db"
-host = "localhost"
-port = 5432
-user = "postgres"
-sslmode = "disable"
+  dbname = "user_db"
+  host = "localhost"
+  port = 5432
+  user = "postgres"
+  sslmode = "disable"
+  pass= "postgres123"
