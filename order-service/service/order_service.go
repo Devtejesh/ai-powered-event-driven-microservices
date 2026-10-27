@@ -33,6 +33,11 @@ func (s *OrderService) CreateOrder(
 		return fmt.Errorf("invalid user id")
 	}
 
+	if order.ProductID.Valid == false ||
+		order.ProductID.Int64 <= 0 {
+		return fmt.Errorf("valid product id is required")
+	}
+
 	if order.ProductName == "" {
 		return fmt.Errorf("product name is required")
 	}
@@ -62,12 +67,18 @@ func (s *OrderService) CreateOrder(
 		return fmt.Errorf("failed to convert order amount to float64")
 	}
 
-	// Step 3: Create the Kafka event.
+	// Step 3: Create the Kafka event with product details.
 	event := kafka.OrderCreatedEvent{
 		Event:   "OrderCreated",
 		OrderID: int(order.ID),
 		UserID:  int(order.UserID),
 		Amount:  amount,
+		Items: []kafka.OrderItem{
+			{
+				ProductID: order.ProductID.Int64,
+				Quantity:  order.Quantity,
+			},
+		},
 	}
 
 	// Step 4: Publish the event to Kafka.

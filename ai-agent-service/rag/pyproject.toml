@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "go-commerce-pdf-rag"
+version = "0.1.0"
+description = "Explicitly selected PDF ingestion and retrieval for the AI agent service"
+requires-python = ">=3.10"
+dependencies = [
+    "google-genai>=1.20,<2",
+    "pgvector>=0.4,<1",
+    "Pillow>=10,<13",
+    "psycopg[binary]>=3.2,<4",
+    "PyMuPDF>=1.25,<2",
+    "pypdf>=5,<7",
+    "pytesseract>=0.3.13,<1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[project.scripts]
+pdf-rag = "pdf_rag.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
