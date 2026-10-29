@@ -3,9 +3,10 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from pathlib import Path
-
+from dotenv import load_dotenv
 from .errors import RagError
 
+load_dotenv(override=True)  # Load .env file if present, but allow environment variables to override
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DOCUMENTS_DIR = PROJECT_ROOT / "knowledge" / "documents"
@@ -57,7 +58,7 @@ class Settings:
             embedding_model=os.getenv(
                 "GEMINI_EMBEDDING_MODEL", "gemini-embedding-001"
             ),
-            answer_model=os.getenv("GEMINI_ANSWER_MODEL", "gemini-2.5-flash"),
+            answer_model=os.getenv("GEMINI_ANSWER_MODEL", "gemini-3.8-flash"),
             postgres_host=required["PSQL_HOST"] or "",
             postgres_port=port,
             postgres_user=required["PSQL_USER"] or "",

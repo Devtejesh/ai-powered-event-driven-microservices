@@ -7,6 +7,7 @@ import (
 
 	"example.com/go-commerce-platform/user-service/config"
 	"example.com/go-commerce-platform/user-service/handler"
+	"example.com/go-commerce-platform/user-service/middleware"
 	"example.com/go-commerce-platform/user-service/repository"
 	"example.com/go-commerce-platform/user-service/route"
 	"example.com/go-commerce-platform/user-service/service"
@@ -35,6 +36,9 @@ func main() {
 	route.RegisterUserRoutes(userhandler)
 
 	fmt.Println("Server started running on port 8080")
-	http.ListenAndServe(":8080", nil)
+	log.Fatal(http.ListenAndServe(
+		":8080",
+		middleware.CORS(http.DefaultServeMux),
+	))
 
 }

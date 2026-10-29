@@ -129,3 +129,53 @@ body {
     margin-top: 32px;
   }
 }
+
+
+/* Desktop dashboard layout correction */
+.app-shell {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.sidebar {
+  flex: 0 0 248px;
+  width: 248px;
+}
+
+.dashboard-main {
+  flex: 1 1 0;
+  min-width: 0;
+  width: calc(100% - 248px);
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+
+@media (max-width: 620px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex: none;
+  }
+
+  .dashboard-main {
+    width: 100%;
+  }
+
+  .overview-grid,
+  .bottom-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

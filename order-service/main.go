@@ -13,6 +13,7 @@ import (
 	"example.com/go-commerce-platform/order-service/config"
 	"example.com/go-commerce-platform/order-service/handler"
 	"example.com/go-commerce-platform/order-service/kafka"
+	"example.com/go-commerce-platform/order-service/middleware"
 	"example.com/go-commerce-platform/order-service/repository"
 	"example.com/go-commerce-platform/order-service/route"
 	"example.com/go-commerce-platform/order-service/service"
@@ -67,7 +68,7 @@ func main() {
 	// Create HTTP server.
 	server := &http.Server{
 		Addr:              ":8081",
-		Handler:           http.DefaultServeMux,
+		Handler:           middleware.CORS(http.DefaultServeMux),
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
